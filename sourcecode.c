@@ -75,7 +75,7 @@ void endgame()
 		mickey();
 	}
 	else if(reponse == 'N'){
-		printf("La derniere personne a avoir dis ca habitait en face du cimetiere. Aujourd'hui il habite en face de chez lui...");
+		printf("La derniere personne a avoir dit ca habitait en face du cimetiere. Aujourd'hui il habite en face de chez lui...");
 	}
 }
 
