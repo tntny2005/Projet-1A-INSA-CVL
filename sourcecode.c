@@ -506,12 +506,12 @@ void main()
     }
 	
     int plateau2[15][15];
-    for (int i = 0;i < 15;i++){
-        for (int j = 0;j < 15;j++){
+    for (i=0; i<15; i++){
+        for (j=0; j<15; j++){
 		plateau2[i][j] = WHITE;
         }
     }
-    for (int i = 0;i < 15;i++){
+    for (i=0; i<15; i++){
         if (i == 0 || i ==14){
             plateau2[i][3] = plateau2[i][11] = BLUE;
             plateau2[i][0] = plateau2[i][7] = plateau2[i][14] = ROUGE;
