@@ -6,6 +6,7 @@
 void mickey()
 {
 	int i, k;
+	printf("\n");
 	for(i=0; i<23; i++){
 		printf(BLKHB"  ");
 	}
@@ -67,15 +68,21 @@ void space_invaders()
 
 void endgame()
 {
-	char reponse;
-	printf("Votre avis nous interesse : avez-vous aime notre jeu (O/N) ?\n<?> ");
-	scanf("%c", &reponse);
-	if(reponse == 'O'){
-		printf("Merci beaucoup d'avoir joue, tu merite une recompense.");
+	int x;
+	printf("Votre avis nous interesse : avez-vous apprecie notre jeu ?\nNOTE /5 : ");
+	scanf("%i", &x);
+	if(x == 5){
+		printf("Tu merite une recompense.");
 		mickey();
 	}
-	else if(reponse == 'N'){
+	else if(x == 0){
 		printf("La derniere personne a avoir dit ca habitait en face du cimetiere. Aujourd'hui il habite en face de chez lui...");
+	}
+	else if(x == -1){
+		printf("10e des 10 engagements : Jouons et amusons-nous tous ensemble.");
+	}
+	else{
+		printf("Merci beaucoup d'avoir joue");
 	}
 }
 
@@ -498,7 +505,7 @@ void afficher_joueur(Joueur joueur)
 void main()
 {
 	char plateau[15][15];
-    int x, y;
+    int x, y, i, j, k;
 	for(y=0; y<15; y++){
         for(x=0; x<15; x++){
             plateau[y][x] = ' ';
@@ -548,7 +555,6 @@ void main()
     
 	int nb_joueurs=demander_nb_joueurs();
 	Joueur joueurs[nb_joueurs];
-	int i, k;
 	for(i=0; i<nb_joueurs; i++){
 		joueurs[i] = initialiser_joueur(joueurs[i], reserve);
 		for(k=0; k<8; k++){
