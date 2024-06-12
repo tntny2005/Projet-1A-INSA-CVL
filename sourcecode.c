@@ -7,7 +7,7 @@ typedef struct {
 	char nom[256];
 	int score;
 	char lettres[8];
-	int tmp[8]; /*va contenir les indices des lettres qu'on a enlevé de la reserve*/
+	int tmp[8];
 } Joueur;
 
 typedef struct {
@@ -598,55 +598,54 @@ void main()
 	}
 	
 	afficher_plateau(plateau);
-	int question=0;
+	int tour=-1;
 	char action;
 	do{
-		for (x=0; x<nb_joueurs; x++) {
-			afficher_joueur(joueurs[x]);
-			printf("\nSaisissez J pour jouer, D pour defausser, A pour mettre fin a la partie\n<?> ");
-			scanf("%c", &action);
+		tour = tour+1;
+		afficher_joueur(joueurs[tour%nb_joueurs]);
+		printf("\nSaisissez J pour jouer, D pour defausser, A pour mettre fin a la partie\n<?> ");
+		scanf("%c", &action);
 		
-			if(action == 'J'){
-				Mot mot = calculer_score(plateau, plateau2);
-				joueurs[x].score = joueurs[x].score + mot.valeur;
-				if (plateau[mot.coordonnees[0]][mot.coordonnees[1]] == ' ') {
-					if (mot.direction == 'V') {
-						for (i = 0; i < strlen(mot.str); i++) {
+		if(action == 'J'){
+			Mot mot = calculer_score(plateau, plateau2);
+			joueurs[tour%nb_joueurs].score = joueurs[tour%nb_joueurs].score + mot.valeur;
+			if (plateau[mot.coordonnees[0]][mot.coordonnees[1]] == ' ') {
+				if (mot.direction == 'V') {
+					for (i = 0; i < strlen(mot.str); i++) {
 							plateau[mot.coordonnees[0]][mot.coordonnees[1] + i] = mot.str[i]; 
-						}
-					}
-					else if (mot.direction == 'H') {
-						for (i = 0; i < strlen(mot.str); i++) {
-							plateau[mot.coordonnees[0] + i][mot.coordonnees[1]] = mot.str[i]; 
-						}
 					}
 				}
-				int occurence[strlen(mot.str)];
-				for(i=0; i<strlen(mot.str); i++){
-					occurence[i]=0;
-				}
-				for(i=0; i<strlen(mot.str); i++){
-					for(k=0; k<8; k++){
-						if(mot.str[i] == joueurs[x].lettres[k]  && occurence[i] == 0){
-							joueurs[x].lettres[k] = ' ';
-							occurence[i] = 1;
-						}
+				else if (mot.direction == 'H') {
+					for (i = 0; i < strlen(mot.str); i++) {
+						plateau[mot.coordonnees[0] + i][mot.coordonnees[1]] = mot.str[i]; 
 					}
 				}
-				afficher_plateau(plateau);
 			}
+			int occurence[strlen(mot.str)];
+			for(i=0; i<strlen(mot.str); i++){
+				occurence[i]=0;
+			}
+			for(i=0; i<strlen(mot.str); i++){
+				for(k=0; k<8; k++){
+					if(mot.str[i] == joueurs[tour%nb_joueurs].lettres[k]  && occurence[i] == 0){
+						joueurs[tour%nb_joueurs].lettres[k] = ' ';
+						occurence[i] = 1;
+					}
+				}
+			}
+			afficher_plateau(plateau);
+		}
 		
-			if(action == 'D'){
-				for(i=0; i<8; i++){
-					reserve[joueurs[x].tmp[i]] = joueurs[x].lettres[i];
-					joueurs[x].lettres[i] = ' ';
-				}
-				joueurs[x] = pioche_joueur(joueurs[x], reserve);
-				for(i=0; i<8; i++){
-					reserve[joueurs[x].tmp[i]] = ' ';
-				}
-				afficher_joueur(joueurs[x]);
+		if(action == 'D'){
+			for(i=0; i<8; i++){
+				reserve[joueurs[tour%nb_joueurs].tmp[i]] = joueurs[tour%nb_joueurs].lettres[i];
+				joueurs[tour%nb_joueurs].lettres[i] = ' ';
 			}
+			joueurs[tour%nb_joueurs] = pioche_joueur(joueurs[tour%nb_joueurs], reserve);
+			for(i=0; i<8; i++){
+				reserve[joueurs[tour%nb_joueurs].tmp[i]] = ' ';
+			}
+			afficher_joueur(joueurs[tour%nb_joueurs]);
 		}
 	}while(action != 'A');
 	
