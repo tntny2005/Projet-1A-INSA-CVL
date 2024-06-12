@@ -3,35 +3,25 @@
 #include <ANSI.h>
 #include <string.h>
 
-typedef struct
-{
+typedef struct {
 	char nom[256];
 	int score;
 	char lettres[8];
 	int tmp[8]; /*va contenir les indices des lettres qu'on a enlevé de la reserve*/
 } Joueur;
 
-typedef struct
-{
+typedef struct {
 	char str[16];
 	char direction;
 	int coordonnees[2];
+	int valeur;
 } Mot;
-
-typedef struct 
-{
-	char mot[20];
-	int row;
-	int col;
-	char direction;
-} scorecalculation;
 
 enum {WHITE, BLUE, DBLUE, ORANGE, ROUGE};
 
 int scoredelettre[26] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
 
-void afficher_plateau(char plateau[15][15])
-{
+void afficher_plateau(char plateau[15][15]) {
 	int i, j;
 	printf(BBLK "\n      ");
 	for(j=0; j<15; j++){
@@ -367,8 +357,7 @@ void afficher_plateau(char plateau[15][15])
 	printf(reset);
 }
 
-int demander_nb_joueurs()
-{ 
+int demander_nb_joueurs() { 
     int nb_joueurs;
 	do{
 		printf("Nombre de joueurs : ");
@@ -377,8 +366,7 @@ int demander_nb_joueurs()
 	return nb_joueurs;
 }
 
-int pioche0(char reserve[100])
-{
+int pioche0(char reserve[100]) {
     int n;
 	do{
 		n = rand()%100;
@@ -386,8 +374,7 @@ int pioche0(char reserve[100])
 	return n;
 }
 
-Joueur pioche_joueur(Joueur joueur, char reserve[100])
-{
+Joueur pioche_joueur(Joueur joueur, char reserve[100]) {
 	int i, n;
 	for(i=0; i<8; i++){
 		if(joueur.lettres[i] == ' '){
@@ -398,8 +385,7 @@ Joueur pioche_joueur(Joueur joueur, char reserve[100])
 	}
 }
 
-Joueur initialiser_joueur(Joueur joueur, char reserve[100])
-{
+Joueur initialiser_joueur(Joueur joueur, char reserve[100]) {
 	printf("Saisir le nom du joueur : ");
 	scanf("%s", joueur.nom);
 	int i, n;
@@ -412,121 +398,58 @@ Joueur initialiser_joueur(Joueur joueur, char reserve[100])
 	return joueur;
 }
 
-Mot saisir_mot(char plateau[15][15])
-{  
+Mot saisir_mot(char plateau[15][15]) {  
     Mot mot;
 	printf("Saisir le mot a placer, les coordonnees de l'initiale et la direction du mot (horizontal ou vertical)\nmot abcisse ordonnee H/V\n<?> ");
     scanf("%s %d %d %c", mot.str, &mot.coordonnees[0], &mot.coordonnees[1], &mot.direction);
 	return mot;
 }
 
-scorecalculation saisie(char plateau[15][15]) {  
-    scorecalculation a;
-    int i, len;
- 
-    printf("Saisir les coordonnées de l'initiale : \n");
-    printf("Abscisse de la case (0-14): ");
-    scanf("%d", &(a.row));
-       printf("\n");
-    printf("Ordonnée de la case (0-14): ");
-    scanf("%d", &(a.col));
-    printf("\nSaisir la direction du mot (écrivez V pour verticale et H pour horizontale): ");
-    scanf(" %c", &(a.direction)); 
-    printf("Saisir le mot à placer : ");
-    scanf("%s", a.mot);
- 
-    len = strlen(a.mot);
-    
-    if (plateau[a.row][a.col] == ' ') {
-        if ((a.direction) == 'H') {
-            for (i = 0; i < len; i++) {
-                plateau[a.row][a.col + i] = a.mot[i]; 
-            }
-        } else if ((a.direction) == 'V') {
-            for (i = 0; i < len; i++) {
-                plateau[a.row + i][a.col] = a.mot[i]; 
-            }
-        }
-    }
- 
-    return a;
-}
-
-void initplateau2(){
-    for (int i = 0;i < 15;i++){
-        for (int j = 0;j < 15;j++){
-                plateau2[i][j] = WHITE;
-        }
-    }
-    for (int i = 0;i < 15;i++){
-        if (i == 0 || i ==14){
-            plateau2[i][3] = plateau2[i][11] = BLUE;
-            plateau2[i][0] = plateau2[i][7] = plateau2[i][14] = ROUGE;
-        }
-        else if (i == 1 || i ==13){
-            plateau2[i][1] = plateau2[i][13] = ORANGE;
-            plateau2[i][5] = plateau2[i][9] = DBLUE;
-        }
-         else if (i == 2 || i ==12){
-            plateau2[i][2] = plateau2[i][12] = ORANGE;
-            plateau2[i][6] = plateau2[i][8] = BLUE;
-        }
-         else if (i == 3 || i ==11){
-            plateau2[i][3] = plateau2[i][11] = ORANGE;
-            plateau2[i][0] = plateau2[i][7] = plateau2[i][14] = BLUE;
-        }
-         else if (i == 4 || i ==10){
-            plateau2[i][4] = plateau2[i][10] = ORANGE;
-        }
-         else if (i == 5 || i ==9){
-            plateau2[i][1] = plateau2[i][5] = plateau2[i][9] = plateau2[i][13]= DBLUE;
-        }
-         else if (i == 6 || i ==8){
-             plateau2[i][2] = plateau2[i][6] = plateau2[i][8] = plateau2[i][12]= BLUE;
-        }
-        else if (i == 7){
-            plateau2[i][0] = plateau2[i][14] = ROUGE;
-            plateau2[i][3] = plateau2[i][11] = BLUE;
-        }
-    }
-}
- 
- 
-int calculer_score(const scorecalculation a){
-int row2 = (a.row), col2 = (a.col), multiplier_mot = 1;
-int score_lettre = 0;
-int score = 0;
-    for (int i = 0; (a.mot[i]) != '\0'; i++) {
-        score_lettre += scoredelettre [(a.mot[i])- 'a'];
- 
-switch (plateau2[row2][col2]){
-    case BLUE:
-    score_lettre = score_lettre * 2;
-    break;
-    case DBLUE:
-    score_lettre = score_lettre * 3;
-    break;
-    case ORANGE:
-    multiplier_mot = multiplier_mot * 2;
-    break;
-    case RED:
-    multiplier_mot = multiplier_mot * 3;
-    break;
-}
-score += score_lettre;
-if (a.direction == 'H'){
-    col2++;
-}
-else if (a.direction == 'V'){
-    row2++;
-}
+Mot calculer_score(char plateau[15][15], int plateau2[15][15]){
+	Mot mot = saisir_mot(plateau);
+	int i;
+	int row2 = mot.coordonnees[0], col2 = mot.coordonnees[1], multiplier_mot = 1;
+	int score_lettre = 0;
+	int score = 0;
+    for (i=0; i<strlen(mot.str); i++) {
+        score_lettre += scoredelettre [mot.str[i]- 'a'];
+		/*
+		if (plt == BLUE) {
+		}
+		else if (plt == DBLUE)
+		*/
+		
+		switch (plateau2[row2][col2]){
+			case BLUE:
+				score_lettre = score_lettre * 2;
+				break;
+			
+			case DBLUE:
+				score_lettre = score_lettre * 3;
+				break;
+			
+			case ORANGE:
+				multiplier_mot = multiplier_mot * 2;
+				break;
+			
+			case ROUGE:
+				multiplier_mot = multiplier_mot * 3;
+				break;
+		}
+		score += score_lettre;
+		if (mot.direction == 'H'){
+			col2++;
+		}
+		else if (mot.direction == 'V'){
+			row2++;
+		}
     }
     score = score * multiplier_mot;
-    return score;
+	mot.valeur = score;
+    return mot;
 }
 
-void afficher_joueur(Joueur joueur)
-{
+void afficher_joueur(Joueur joueur) {
 	printf("\n%s	%ipts\n", joueur.nom, joueur.score);
 	int i;
 	for(i=0; i<8; i++){
@@ -534,8 +457,7 @@ void afficher_joueur(Joueur joueur)
 	}
 }
 
-void mickey()
-{
+void mickey() {
 	int i, k;
 	printf("\n");
 	for(i=0; i<23; i++){
@@ -567,8 +489,7 @@ void mickey()
 	printf(reset"\n");
 }
 
-void space_invaders()
-{
+void space_invaders() {
 	int i;
 	printf("    " BLUB"  " reset "          " BLUB"  " reset"\n");
 	for(i=0; i<2; i++){
@@ -597,8 +518,7 @@ void space_invaders()
 	printf("\n");
 }
 
-void endgame()
-{
+void endgame() {
 	int x;
 	printf("Votre avis nous interesse : avez-vous apprecie notre jeu ?\nNOTE /5 : ");
 	scanf("%i", &x);
@@ -678,54 +598,56 @@ void main()
 	}
 	
 	afficher_plateau(plateau);
-	int tour=-1, question=0;
+	int question=0;
 	char action;
 	do{
-		tour = tour+1;
-		afficher_joueur(joueurs[tour%nb_joueurs]);
-		printf("\nSaisissez J pour jouer, D pour defausser, A pour mettre fin a la partie\n<?> ");
-		scanf("%c", &action);
+		for (x=0; x<nb_joueurs; x++) {
+			afficher_joueur(joueurs[x]);
+			printf("\nSaisissez J pour jouer, D pour defausser, A pour mettre fin a la partie\n<?> ");
+			scanf("%c", &action);
 		
-		if(action == 'J'){
-			Mot mot=saisir_mot(plateau);
-			if (plateau[mot.coordonnees[0]][mot.coordonnees[1]] == ' ') {
-				if (mot.direction == 'V') {
-					for (i = 0; i < strlen(mot.str); i++) {
-						plateau[mot.coordonnees[0]][mot.coordonnees[1] + i] = mot.str[i]; 
+			if(action == 'J'){
+				Mot mot = calculer_score(plateau, plateau2);
+				joueurs[x].score = joueurs[x].score + mot.valeur;
+				if (plateau[mot.coordonnees[0]][mot.coordonnees[1]] == ' ') {
+					if (mot.direction == 'V') {
+						for (i = 0; i < strlen(mot.str); i++) {
+							plateau[mot.coordonnees[0]][mot.coordonnees[1] + i] = mot.str[i]; 
+						}
+					}
+					else if (mot.direction == 'H') {
+						for (i = 0; i < strlen(mot.str); i++) {
+							plateau[mot.coordonnees[0] + i][mot.coordonnees[1]] = mot.str[i]; 
+						}
 					}
 				}
-				else if (mot.direction == 'H') {
-					for (i = 0; i < strlen(mot.str); i++) {
-						plateau[mot.coordonnees[0] + i][mot.coordonnees[1]] = mot.str[i]; 
+				int occurence[strlen(mot.str)];
+				for(i=0; i<strlen(mot.str); i++){
+					occurence[i]=0;
+				}
+				for(i=0; i<strlen(mot.str); i++){
+					for(k=0; k<8; k++){
+						if(mot.str[i] == joueurs[x].lettres[k]  && occurence[i] == 0){
+							joueurs[x].lettres[k] = ' ';
+							occurence[i] = 1;
+						}
 					}
 				}
+				afficher_plateau(plateau);
 			}
-			int occurence[strlen(mot.str)];
-			for(i=0; i<strlen(mot.str); i++){
-				occurence[i]=0;
-			}
-			for(i=0; i<strlen(mot.str); i++){
-				for(k=0; k<8; k++){
-					if(mot.str[i] == joueurs[tour%nb_joueurs].lettres[k]  && occurence[i] == 0){
-						joueurs[tour%nb_joueurs].lettres[k] = ' ';
-						occurence[i] = 1;
-					}
+		
+			if(action == 'D'){
+				for(i=0; i<8; i++){
+					reserve[joueurs[x].tmp[i]] = joueurs[x].lettres[i];
+					joueurs[x].lettres[i] = ' ';
 				}
+				joueurs[x] = pioche_joueur(joueurs[x], reserve);
+				for(i=0; i<8; i++){
+					reserve[joueurs[x].tmp[i]] = ' ';
+				}
+				afficher_joueur(joueurs[x]);
 			}
-			afficher_plateau(plateau);
 		}
-		
-		if(action == 'D'){
-			for(i=0; i<8; i++){
-				reserve[joueurs[tour%nb_joueurs].tmp[i]] = joueurs[tour%nb_joueurs].lettres[i];
-				joueurs[tour%nb_joueurs].lettres[i] = ' ';
-			}
-			joueurs[tour%nb_joueurs] = pioche_joueur(joueurs[tour%nb_joueurs], reserve);
-			for(i=0; i<8; i++){
-				reserve[joueurs[tour%nb_joueurs].tmp[i]] = ' ';
-			}
-			afficher_joueur(joueurs[tour%nb_joueurs]);
-		}		
 	}while(action != 'A');
 	
 	int vainqueur=0;
