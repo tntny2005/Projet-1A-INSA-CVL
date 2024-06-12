@@ -3,89 +3,6 @@
 #include <ANSI.h>
 #include <string.h>
 
-void mickey()
-{
-	int i, k;
-	printf("\n");
-	for(i=0; i<23; i++){
-		printf(BLKHB"  ");
-	}
-	printf(reset"\n" BLKHB"    " BLKB"        " BLKHB"                      " BLKB"        " BLKHB"    " reset"\n" BLKHB"  " BLKB"            " BLKHB"    " BLKB"          " BLKHB"    " BLKB"            " BLKHB"  " reset "\n" BLKHB"  ");
-	for(i=0; i<2; i++){
-		for(k=0; k<21; k++){
-			printf(BLKB"  ");
-		}
-		printf(BLKHB"  " reset"\n" BLKHB"  ");
-	}
-	printf(BLKB"            " WHTB"        " BLKB"  " WHTB"        " BLKB"            " BLKHB"  " reset"\n" BLKHB"    " BLKB"        " WHTB"                      " BLKB"        " BLKHB"    " reset"\n" BLKHB"          " BLKB"  " WHTB"                      " BLKB"  " BLKHB"          " reset "\n" BLKHB"        " BLKB"    " WHTB"                      " BLKB"    " BLKHB"        ");
-	for(i=0; i<2; i++){
-		printf(reset"\n" BLKHB"        " BLKB"    " WHTB"    " BLKB"  " WHTB"          " BLKB"  " WHTB"    " BLKB"    " BLKHB"        ");
-	}
-	printf(reset"\n" BLKHB"        " BLKB"  " WHTB"      " BLKB"  " WHTB"          " BLKB"  " WHTB"      " BLKB"  " BLKHB"        " reset"\n" BLKHB"          " WHTB"          " BLKB"      " WHTB"          " BLKHB"          " reset"\n" BLKHB"          " WHTB"            " BLKB"  " WHTB"            " BLKHB"          " reset "\n" BLKHB"            ");
-	for(i=0; i<2; i++){
-		printf(WHTB"      " BLKB"  ");
-	} 
-	printf(WHTB"      " BLKHB"            " reset "\n" BLKHB"                " WHTB"    " BLKB"      " WHTB"    " BLKHB"                " reset "\n" BLKHB"                  " WHTB"          " BLKHB"                  " reset"\n" BLKHB"        " WHTB"    " BLKHB"    " BLKB"              " BLKHB"    " WHTB"    " BLKHB"        " reset"\n" BLKHB"      " WHTB"      " BLKB"                      " WHTB"      " BLKHB"      " reset"\n" BLKHB"        " WHTB"    " BLKHB"    " BLKB"              " BLKHB"    " WHTB"    " BLKHB"        " reset"\n" BLKHB"                " REDB"              " BLKHB"                " reset"\n" BLKHB"                " REDB"  " WHTB"  " REDB"      " WHTB"  " REDB"  " BLKHB"                " reset"\n" BLKHB"                " REDB"              " BLKHB"                " reset"\n" BLKHB"                " REDB"      " BLKHB"  " REDB"      " BLKHB"                " reset"\n" BLKHB"                " YELB"      " BLKHB"  " YELB"      " BLKHB"                ");
-	for(i=0; i<2; i++){
-		printf(reset"\n" BLKHB"            " YELB"          " BLKHB"  " YELB"          " BLKHB"            ");
-	}
-	printf(reset"\n");
-	for(i=0; i<23; i++){
-		printf(BLKHB"  ");
-	}
-	printf(reset"\n");
-}
-
-void space_invaders()
-{
-	int i;
-	printf("    " BLUB"  " reset "          " BLUB"  " reset"\n");
-	for(i=0; i<2; i++){
-		printf("      " BLUB"  " reset);
-	}
-	printf("\n    ");
-	for(i=0; i<7; i++){
-		printf(BLUB"  ");
-	}
-	printf(reset"\n  " BLUB"    " reset"  " BLUB"      " reset"  " BLUB"    " reset"\n");
-	for(i=0; i<11; i++){
-		printf(BLUB"  ");
-	}
-	printf(reset"\n" BLUB"  " reset"  ");
-	for(i=0; i<7; i++){
-		printf(BLUB"  ");
-	}
-	printf(reset"  " BLUB"  " reset"\n" BLUB"  " reset"  " BLUB"  " reset);
-	for(i=0; i<5; i++){
-		printf("  ");
-	}
-	printf(BLUB"  " reset"  " BLUB"  " reset"\n    ");
-	for(i=0; i<2; i++){
-		printf("  " BLUB"    " reset);
-	}
-	printf("\n");
-}
-
-void endgame()
-{
-	int x;
-	printf("Votre avis nous interesse : avez-vous apprecie notre jeu ?\nNOTE /5 : ");
-	scanf("%i", &x);
-	if(x == 5){
-		printf("Tu merite une recompense.");
-		mickey();
-	}
-	else if(x == 0){
-		printf("La derniere personne a avoir dit ca habitait en face du cimetiere. Aujourd'hui il habite en face de chez lui...");
-	}
-	else if(x == -1){
-		printf("10e des 10 engagements : Jouons et amusons-nous tous ensemble.");
-	}
-	else{
-		printf("Merci beaucoup d'avoir joue");
-	}
-}
-
 typedef struct
 {
 	char nom[256];
@@ -94,14 +11,24 @@ typedef struct
 	int tmp[8]; /*va contenir les indices des lettres qu'on a enlevé de la reserve*/
 } Joueur;
 
-enum {WHITE, BLUE, DBLUE, ORANGE, ROUGE};
-
 typedef struct
 {
 	char str[16];
 	char direction;
 	int coordonnees[2];
 } Mot;
+
+typedef struct 
+{
+	char mot[20];
+	int row;
+	int col;
+	char direction;
+} scorecalculation;
+
+enum {WHITE, BLUE, DBLUE, ORANGE, ROUGE};
+
+int scoredelettre[26] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
 
 void afficher_plateau(char plateau[15][15])
 {
@@ -493,12 +420,200 @@ Mot saisir_mot(char plateau[15][15])
 	return mot;
 }
 
+scorecalculation saisie(char plateau[15][15]) {  
+    scorecalculation a;
+    int i, len;
+ 
+    printf("Saisir les coordonnées de l'initiale : \n");
+    printf("Abscisse de la case (0-14): ");
+    scanf("%d", &(a.row));
+       printf("\n");
+    printf("Ordonnée de la case (0-14): ");
+    scanf("%d", &(a.col));
+    printf("\nSaisir la direction du mot (écrivez V pour verticale et H pour horizontale): ");
+    scanf(" %c", &(a.direction)); 
+    printf("Saisir le mot à placer : ");
+    scanf("%s", a.mot);
+ 
+    len = strlen(a.mot);
+    
+    if (plateau[a.row][a.col] == ' ') {
+        if ((a.direction) == 'H') {
+            for (i = 0; i < len; i++) {
+                plateau[a.row][a.col + i] = a.mot[i]; 
+            }
+        } else if ((a.direction) == 'V') {
+            for (i = 0; i < len; i++) {
+                plateau[a.row + i][a.col] = a.mot[i]; 
+            }
+        }
+    }
+ 
+    return a;
+}
+
+void initplateau2(){
+    for (int i = 0;i < 15;i++){
+        for (int j = 0;j < 15;j++){
+                plateau2[i][j] = WHITE;
+        }
+    }
+    for (int i = 0;i < 15;i++){
+        if (i == 0 || i ==14){
+            plateau2[i][3] = plateau2[i][11] = BLUE;
+            plateau2[i][0] = plateau2[i][7] = plateau2[i][14] = ROUGE;
+        }
+        else if (i == 1 || i ==13){
+            plateau2[i][1] = plateau2[i][13] = ORANGE;
+            plateau2[i][5] = plateau2[i][9] = DBLUE;
+        }
+         else if (i == 2 || i ==12){
+            plateau2[i][2] = plateau2[i][12] = ORANGE;
+            plateau2[i][6] = plateau2[i][8] = BLUE;
+        }
+         else if (i == 3 || i ==11){
+            plateau2[i][3] = plateau2[i][11] = ORANGE;
+            plateau2[i][0] = plateau2[i][7] = plateau2[i][14] = BLUE;
+        }
+         else if (i == 4 || i ==10){
+            plateau2[i][4] = plateau2[i][10] = ORANGE;
+        }
+         else if (i == 5 || i ==9){
+            plateau2[i][1] = plateau2[i][5] = plateau2[i][9] = plateau2[i][13]= DBLUE;
+        }
+         else if (i == 6 || i ==8){
+             plateau2[i][2] = plateau2[i][6] = plateau2[i][8] = plateau2[i][12]= BLUE;
+        }
+        else if (i == 7){
+            plateau2[i][0] = plateau2[i][14] = ROUGE;
+            plateau2[i][3] = plateau2[i][11] = BLUE;
+        }
+    }
+}
+ 
+ 
+int calculer_score(const scorecalculation a){
+int row2 = (a.row), col2 = (a.col), multiplier_mot = 1;
+int score_lettre = 0;
+int score = 0;
+    for (int i = 0; (a.mot[i]) != '\0'; i++) {
+        score_lettre += scoredelettre [(a.mot[i])- 'a'];
+ 
+switch (plateau2[row2][col2]){
+    case BLUE:
+    score_lettre = score_lettre * 2;
+    break;
+    case DBLUE:
+    score_lettre = score_lettre * 3;
+    break;
+    case ORANGE:
+    multiplier_mot = multiplier_mot * 2;
+    break;
+    case RED:
+    multiplier_mot = multiplier_mot * 3;
+    break;
+}
+score += score_lettre;
+if (a.direction == 'H'){
+    col2++;
+}
+else if (a.direction == 'V'){
+    row2++;
+}
+    }
+    score = score * multiplier_mot;
+    return score;
+}
+
 void afficher_joueur(Joueur joueur)
 {
 	printf("\n%s	%ipts\n", joueur.nom, joueur.score);
 	int i;
 	for(i=0; i<8; i++){
 		printf("%c ", joueur.lettres[i]);
+	}
+}
+
+void mickey()
+{
+	int i, k;
+	printf("\n");
+	for(i=0; i<23; i++){
+		printf(BLKHB"  ");
+	}
+	printf(reset"\n" BLKHB"    " BLKB"        " BLKHB"                      " BLKB"        " BLKHB"    " reset"\n" BLKHB"  " BLKB"            " BLKHB"    " BLKB"          " BLKHB"    " BLKB"            " BLKHB"  " reset "\n" BLKHB"  ");
+	for(i=0; i<2; i++){
+		for(k=0; k<21; k++){
+			printf(BLKB"  ");
+		}
+		printf(BLKHB"  " reset"\n" BLKHB"  ");
+	}
+	printf(BLKB"            " WHTB"        " BLKB"  " WHTB"        " BLKB"            " BLKHB"  " reset"\n" BLKHB"    " BLKB"        " WHTB"                      " BLKB"        " BLKHB"    " reset"\n" BLKHB"          " BLKB"  " WHTB"                      " BLKB"  " BLKHB"          " reset "\n" BLKHB"        " BLKB"    " WHTB"                      " BLKB"    " BLKHB"        ");
+	for(i=0; i<2; i++){
+		printf(reset"\n" BLKHB"        " BLKB"    " WHTB"    " BLKB"  " WHTB"          " BLKB"  " WHTB"    " BLKB"    " BLKHB"        ");
+	}
+	printf(reset"\n" BLKHB"        " BLKB"  " WHTB"      " BLKB"  " WHTB"          " BLKB"  " WHTB"      " BLKB"  " BLKHB"        " reset"\n" BLKHB"          " WHTB"          " BLKB"      " WHTB"          " BLKHB"          " reset"\n" BLKHB"          " WHTB"            " BLKB"  " WHTB"            " BLKHB"          " reset "\n" BLKHB"            ");
+	for(i=0; i<2; i++){
+		printf(WHTB"      " BLKB"  ");
+	} 
+	printf(WHTB"      " BLKHB"            " reset "\n" BLKHB"                " WHTB"    " BLKB"      " WHTB"    " BLKHB"                " reset "\n" BLKHB"                  " WHTB"          " BLKHB"                  " reset"\n" BLKHB"        " WHTB"    " BLKHB"    " BLKB"              " BLKHB"    " WHTB"    " BLKHB"        " reset"\n" BLKHB"      " WHTB"      " BLKB"                      " WHTB"      " BLKHB"      " reset"\n" BLKHB"        " WHTB"    " BLKHB"    " BLKB"              " BLKHB"    " WHTB"    " BLKHB"        " reset"\n" BLKHB"                " REDB"              " BLKHB"                " reset"\n" BLKHB"                " REDB"  " WHTB"  " REDB"      " WHTB"  " REDB"  " BLKHB"                " reset"\n" BLKHB"                " REDB"              " BLKHB"                " reset"\n" BLKHB"                " REDB"      " BLKHB"  " REDB"      " BLKHB"                " reset"\n" BLKHB"                " YELB"      " BLKHB"  " YELB"      " BLKHB"                ");
+	for(i=0; i<2; i++){
+		printf(reset"\n" BLKHB"            " YELB"          " BLKHB"  " YELB"          " BLKHB"            ");
+	}
+	printf(reset"\n");
+	for(i=0; i<23; i++){
+		printf(BLKHB"  ");
+	}
+	printf(reset"\n");
+}
+
+void space_invaders()
+{
+	int i;
+	printf("    " BLUB"  " reset "          " BLUB"  " reset"\n");
+	for(i=0; i<2; i++){
+		printf("      " BLUB"  " reset);
+	}
+	printf("\n    ");
+	for(i=0; i<7; i++){
+		printf(BLUB"  ");
+	}
+	printf(reset"\n  " BLUB"    " reset"  " BLUB"      " reset"  " BLUB"    " reset"\n");
+	for(i=0; i<11; i++){
+		printf(BLUB"  ");
+	}
+	printf(reset"\n" BLUB"  " reset"  ");
+	for(i=0; i<7; i++){
+		printf(BLUB"  ");
+	}
+	printf(reset"  " BLUB"  " reset"\n" BLUB"  " reset"  " BLUB"  " reset);
+	for(i=0; i<5; i++){
+		printf("  ");
+	}
+	printf(BLUB"  " reset"  " BLUB"  " reset"\n    ");
+	for(i=0; i<2; i++){
+		printf("  " BLUB"    " reset);
+	}
+	printf("\n");
+}
+
+void endgame()
+{
+	int x;
+	printf("Votre avis nous interesse : avez-vous apprecie notre jeu ?\nNOTE /5 : ");
+	scanf("%i", &x);
+	if(x == 5){
+		printf("Tu merite une recompense.");
+		mickey();
+	}
+	else if(x == 0){
+		printf("La derniere personne a avoir dit ca habitait en face du cimetiere. Aujourd'hui il habite en face de chez lui...");
+	}
+	else if(x == -1){
+		printf("10e des 10 engagements : Jouons et amusons-nous tous ensemble.");
+	}
+	else{
+		printf("Merci beaucoup d'avoir joue.");
 	}
 }
 
